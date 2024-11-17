@@ -12,6 +12,7 @@ public class UI extends JFrame {
     private final SelectorOrigen selectorOrigen = new SelectorOrigen();
     private final SelectorDirectorioDestino selectorDestino = new SelectorDirectorioDestino();
     private final JTextField inputNombre = new JTextField(10);
+    private final JTextField inputPassword = new JTextField(10);
     private final Buffer buffer;
 
     public UI(Buffer buffer) {
@@ -49,11 +50,17 @@ public class UI extends JFrame {
         nombreSalida.add(Box.createHorizontalStrut(10));
         nombreSalida.add(inputNombre );
 
+        Box password = Box.createHorizontalBox();
+        password.add(new JLabel("Password: "));
+        password.add(Box.createHorizontalStrut(10));
+        password.add(inputPassword );
+
         Box botonAceptar = Box.createHorizontalBox();
         botonAceptar.add(new BotonAceptar(this));
 
         columna.add(origen);
         columna.add(directorioSalida);
+        columna.add(password);
         columna.add(nombreSalida);
         columna.add(botonAceptar);
         add(columna);
@@ -69,6 +76,6 @@ public class UI extends JFrame {
 
     public void buidProceso() throws InterruptedException {
         buffer.write(new DatosProceso(selectorOrigen.pathOrigen(), selectorDestino.pathDestino(),
-                inputNombre.getText()));
+                inputPassword.getText(), inputNombre.getText()));
     }
 }

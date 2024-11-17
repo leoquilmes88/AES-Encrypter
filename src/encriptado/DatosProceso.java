@@ -6,11 +6,13 @@ public class DatosProceso {
 
     private final String pathOrigen;
     private final String pathDirectorioDestino;
+    private final String password;
     private final String nombreSalida;
 
-    public DatosProceso(String pathOrigen, String pathDirectorioDestino, String nombreSalida) {
+    public DatosProceso(String pathOrigen, String pathDirectorioDestino,String password, String nombreSalida) {
         this.pathOrigen = pathOrigen;
         this.pathDirectorioDestino = pathDirectorioDestino;
+        this.password = password;
         this.nombreSalida = nombreSalida;
     }
 
@@ -20,6 +22,9 @@ public class DatosProceso {
 
     public String getPathDirectorioDestino() {
         return pathDirectorioDestino;
+    }
+    public String getPassword() {
+        return password;
     }
 
     public String getNombreSalida() {

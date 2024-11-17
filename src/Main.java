@@ -21,10 +21,9 @@ public class Main {
         //Se lee archivo
         FileInputStream fileInput = new FileInputStream(datosProceso.getPathOrigen());
 
-        byte[] iv = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
         //Se crea y escribe el archivo resultante
         FileOutputStream fileOutput = new FileOutputStream(datosProceso.getPathDirectorioDestino() + "/" + datosProceso.getNombreSalida());
-        fileOutput.write(Encrypter.encrypt("algunallave", iv, fileInput.readAllBytes()));
+        fileOutput.write(Encrypter.encrypt(datosProceso.getPassword(), fileInput.readAllBytes()));
 
         System.exit(0);
     }
