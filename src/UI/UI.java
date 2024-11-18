@@ -13,6 +13,8 @@ public class UI extends JFrame {
     private final CustomSelector destinationSelector = new CustomSelector("Carpeta destino", JFileChooser.DIRECTORIES_ONLY);
     private final JTextField outputFileName = new JTextField(10);
     private final JTextField inputPassword = new JTextField(10);
+    private final JTextField inputSalt = new JTextField(10);
+    private final ActionCombo actionCombo = new ActionCombo();
     private final Buffer buffer;
 
     public UI(Buffer buffer) {
@@ -45,15 +47,24 @@ public class UI extends JFrame {
         Box outputDirectory = Box.createHorizontalBox();
         outputDirectory.add(destinationSelector);
 
-        Box outputFileName = Box.createHorizontalBox();
-        outputFileName.add(new JLabel("Nombre archivo nuevo: "));
-        outputFileName.add(Box.createHorizontalStrut(10));
-        outputFileName.add(this.outputFileName);
+        Box outputFileNameBox = Box.createHorizontalBox();
+        outputFileNameBox.add(new JLabel("Nombre archivo nuevo: "));
+        outputFileNameBox.add(Box.createHorizontalStrut(10));
+        outputFileNameBox.add(this.outputFileName);
 
         Box password = Box.createHorizontalBox();
         password.add(new JLabel("Password: "));
         password.add(Box.createHorizontalStrut(10));
-        password.add(inputPassword );
+        password.add(inputPassword);
+
+        Box salt = Box.createHorizontalBox();
+        salt.add(new JLabel("Salt: "));
+        salt.add(Box.createHorizontalStrut(10));
+        salt.add(inputSalt);
+
+        Box actionComboBox = Box.createHorizontalBox();
+        actionComboBox.add(new JLabel("Accion: "));
+        actionComboBox.add(actionCombo);
 
         Box acceptButton = Box.createHorizontalBox();
         acceptButton.add(new AcceptButton(this));
@@ -61,7 +72,9 @@ public class UI extends JFrame {
         column.add(origin);
         column.add(outputDirectory);
         column.add(password);
-        column.add(outputFileName);
+        column.add(salt);
+        column.add(actionComboBox);
+        column.add(outputFileNameBox);
         column.add(acceptButton);
         add(column);
     }
@@ -75,7 +88,7 @@ public class UI extends JFrame {
     }
 
     public void buildProcess() throws InterruptedException {
-        buffer.write(new ProcessData(originSelector.path(), destinationSelector.path(),
-                inputPassword.getText(), outputFileName.getText()));
+        buffer.write(new ProcessData(originSelector.path(), destinationSelector.path(), inputPassword.getText(),
+                inputSalt.getText(), actionCombo.getAction().getCipherMode(), outputFileName.getText()));
     }
 }

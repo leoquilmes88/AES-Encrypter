@@ -7,13 +7,17 @@ public class ProcessData {
     private final String originFilePath;
     private final String destinationPath;
     private final String password;
+    private final String salt;
+    private final int mode;
     private final String outputFileName;
 
-    public ProcessData(String pathOrigen, String pathDirectorioDestino, String password, String nombreSalida) {
+    public ProcessData(String pathOrigen, String destinationPath, String password, String salt, int mode, String outputFileName) {
         this.originFilePath = pathOrigen;
-        this.destinationPath = pathDirectorioDestino;
+        this.destinationPath = destinationPath;
         this.password = password;
-        this.outputFileName = nombreSalida;
+        this.salt = salt;
+        this.mode = mode;
+        this.outputFileName = outputFileName;
     }
 
     public String getOriginFilePath() {
@@ -26,7 +30,8 @@ public class ProcessData {
     public String getPassword() {
         return password;
     }
-
+    public String getSalt() { return salt;}
+    public int getMode() { return mode;}
     public String getOutputFileName() {
         return outputFileName;
     }
