@@ -10,11 +10,14 @@ import java.security.SecureRandom;
 public enum ActionMode {
 
     ENCRYPT(CipherMode.ENCRYPT){
+        private byte[] ivBytes = new byte[0];
         @Override
         public byte[] getIvBytes(byte[] input){
-            byte[] result = new byte[16];
-            new SecureRandom().nextBytes(result);
-            return result;
+            if (ivBytes.length == 0){
+                ivBytes = new byte[16];
+                new SecureRandom().nextBytes(ivBytes);
+            }
+            return ivBytes;
         }
         @Override
         public byte[] getResult(byte[] input, Cipher cipher) throws IOException, IllegalBlockSizeException, BadPaddingException {
