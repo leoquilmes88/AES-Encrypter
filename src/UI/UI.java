@@ -89,6 +89,6 @@ public class UI extends JFrame {
 
     public void buildProcess() throws InterruptedException {
         buffer.write(new ProcessData(originSelector.path(), destinationSelector.path(), inputPassword.getText(),
-                inputSalt.getText(), actionCombo.getAction().getCipherMode(), outputFileName.getText()));
+                inputSalt.getText(), actionCombo.getAction(), outputFileName.getText()));
     }
 }

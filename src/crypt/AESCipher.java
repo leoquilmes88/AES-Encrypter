@@ -10,10 +10,8 @@ import java.security.spec.KeySpec;
 
 public class AESCipher {
 
-    public static byte[] doAction(String password, String salt, int modeIndex, byte[] input) throws Exception {
-        //Esto es una mala practica pero para poder tener bidireccion para encriptar y desencriptar es que se utiliza
-        //el mismo vector de inicializacion
-        byte[] ivByte = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+    public static byte[] doAction(String password, String salt, ActionMode actionMode, byte[] input) throws Exception {
+        byte[] ivByte = actionMode.getIvBytes(input);
         IvParameterSpec ivParameter = new IvParameterSpec(ivByte);
         Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
         SecretKeyFactory secretFactory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256");
@@ -21,8 +19,8 @@ public class AESCipher {
                 salt.getBytes(StandardCharsets.UTF_8), 65536, 256);
         SecretKeySpec secretKeySpec = new SecretKeySpec(secretFactory.generateSecret(keySpec).getEncoded(),
                 "AES");
-        cipher.init(modeIndex, secretKeySpec, ivParameter);
-        return cipher.doFinal(input);
+        cipher.init(actionMode.getCipherMode(), secretKeySpec, ivParameter);
+        return actionMode.getResult(input, cipher);
     }
 
 }
