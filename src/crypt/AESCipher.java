@@ -1,4 +1,4 @@
-package encriptado;
+package crypt;
 
 import javax.crypto.Cipher;
 import javax.crypto.SecretKeyFactory;
@@ -7,7 +7,7 @@ import javax.crypto.spec.SecretKeySpec;
 import java.security.SecureRandom;
 import java.security.spec.KeySpec;
 
-public class Encrypter {
+public class AESCipher {
 
     public static byte[] encrypt(String key, byte[] input) throws Exception {
         Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");

@@ -1,4 +1,4 @@
-package encriptado;
+package crypt;
 
 public class Buffer {
     private final Object[] data;

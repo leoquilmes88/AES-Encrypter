@@ -1,7 +1,7 @@
 package UI;
 
-import encriptado.Buffer;
-import encriptado.DatosProceso;
+import crypt.Buffer;
+import crypt.ProcessData;
 
 import javax.swing.*;
 import java.awt.*;
@@ -9,22 +9,22 @@ import java.awt.*;
 public class UI extends JFrame {
 
     private final Toolkit toolkit = Toolkit.getDefaultToolkit();
-    private final SelectorOrigen selectorOrigen = new SelectorOrigen();
-    private final SelectorDirectorioDestino selectorDestino = new SelectorDirectorioDestino();
-    private final JTextField inputNombre = new JTextField(10);
+    private final CustomSelector originSelector = new CustomSelector("Archivo origen", JFileChooser.FILES_ONLY);
+    private final CustomSelector destinationSelector = new CustomSelector("Carpeta destino", JFileChooser.DIRECTORIES_ONLY);
+    private final JTextField outputFileName = new JTextField(10);
     private final JTextField inputPassword = new JTextField(10);
     private final Buffer buffer;
 
     public UI(Buffer buffer) {
         this.buffer = buffer;
-        configurar();
-        iniciar();
+        init();
+        start();
     }
 
-    private void iniciar() {
+    private void start() {
         setTitle("Encriptador de archivos");
-        Image icono = toolkit.getImage("icon.png");
-        setIconImage(icono);
+        Image icon = toolkit.getImage("icon.png");
+        setIconImage(icon);
 
         Dimension screenSize = toolkit.getScreenSize();
         setBounds(screenSize.width / 4, screenSize.height / 4, 500 , 245);
@@ -34,48 +34,48 @@ public class UI extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
-    private void configurar() {
+    private void init() {
         setLayout(new FlowLayout(FlowLayout.CENTER));
 
-        Box columna = Box.createVerticalBox();
+        Box column = Box.createVerticalBox();
 
-        Box origen = Box.createHorizontalBox();
-        origen.add(selectorOrigen );
+        Box origin = Box.createHorizontalBox();
+        origin.add(originSelector);
 
-        Box directorioSalida = Box.createHorizontalBox();
-        directorioSalida.add(selectorDestino );
+        Box outputDirectory = Box.createHorizontalBox();
+        outputDirectory.add(destinationSelector);
 
-        Box nombreSalida = Box.createHorizontalBox();
-        nombreSalida.add(new JLabel("Nombre archivo nuevo: "));
-        nombreSalida.add(Box.createHorizontalStrut(10));
-        nombreSalida.add(inputNombre );
+        Box outputFileName = Box.createHorizontalBox();
+        outputFileName.add(new JLabel("Nombre archivo nuevo: "));
+        outputFileName.add(Box.createHorizontalStrut(10));
+        outputFileName.add(this.outputFileName);
 
         Box password = Box.createHorizontalBox();
         password.add(new JLabel("Password: "));
         password.add(Box.createHorizontalStrut(10));
         password.add(inputPassword );
 
-        Box botonAceptar = Box.createHorizontalBox();
-        botonAceptar.add(new BotonAceptar(this));
+        Box acceptButton = Box.createHorizontalBox();
+        acceptButton.add(new AcceptButton(this));
 
-        columna.add(origen);
-        columna.add(directorioSalida);
-        columna.add(password);
-        columna.add(nombreSalida);
-        columna.add(botonAceptar);
-        add(columna);
+        column.add(origin);
+        column.add(outputDirectory);
+        column.add(password);
+        column.add(outputFileName);
+        column.add(acceptButton);
+        add(column);
     }
 
-    public void notificar(String mensaje) {
-        JOptionPane.showMessageDialog(this, mensaje);
+    public void notification(String message) {
+        JOptionPane.showMessageDialog(this, message);
     }
 
-    public DatosProceso getDatos() {
-        return (DatosProceso) this.buffer.read();
+    public ProcessData getData() {
+        return (ProcessData) this.buffer.read();
     }
 
-    public void buidProceso() throws InterruptedException {
-        buffer.write(new DatosProceso(selectorOrigen.pathOrigen(), selectorDestino.pathDestino(),
-                inputPassword.getText(), inputNombre.getText()));
+    public void buildProcess() throws InterruptedException {
+        buffer.write(new ProcessData(originSelector.path(), destinationSelector.path(),
+                inputPassword.getText(), outputFileName.getText()));
     }
 }

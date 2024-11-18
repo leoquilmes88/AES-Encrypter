@@ -1,7 +1,7 @@
 import UI.UI;
-import encriptado.Buffer;
-import encriptado.DatosProceso;
-import encriptado.Encrypter;
+import crypt.Buffer;
+import crypt.ProcessData;
+import crypt.AESCipher;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -16,15 +16,16 @@ public class Main {
         UI ui = new UI(bufferUI);
 
         //Se recuperan los datos ingresados por el usuario
-        DatosProceso datosProceso = ui.getDatos();
+        ProcessData processData = ui.getData();
 
         //Se lee archivo
-        FileInputStream fileInput = new FileInputStream(datosProceso.getPathOrigen());
+        FileInputStream fileInput = new FileInputStream(processData.getOriginFilePath());
 
         //Se crea y escribe el archivo resultante
-        FileOutputStream fileOutput = new FileOutputStream(datosProceso.getPathDirectorioDestino() + "/" + datosProceso.getNombreSalida());
-        fileOutput.write(Encrypter.encrypt(datosProceso.getPassword(), fileInput.readAllBytes()));
+        FileOutputStream fileOutput = new FileOutputStream(processData.getDestinationPath() + "/" + processData.getOutputFileName());
+        fileOutput.write(AESCipher.encrypt(processData.getPassword(), fileInput.readAllBytes()));
 
+        ui.notification("Proceso realizado con exito");
         System.exit(0);
     }
 }
