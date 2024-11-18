@@ -8,10 +8,10 @@ public class ProcessData {
     private final String destinationPath;
     private final String password;
     private final String salt;
-    private final int mode;
+    private final ActionMode mode;
     private final String outputFileName;
 
-    public ProcessData(String pathOrigen, String destinationPath, String password, String salt, int mode, String outputFileName) {
+    public ProcessData(String pathOrigen, String destinationPath, String password, String salt, ActionMode mode, String outputFileName) {
         this.originFilePath = pathOrigen;
         this.destinationPath = destinationPath;
         this.password = password;
@@ -31,7 +31,7 @@ public class ProcessData {
         return password;
     }
     public String getSalt() { return salt;}
-    public int getMode() { return mode;}
+    public ActionMode getMode() { return mode;}
     public String getOutputFileName() {
         return outputFileName;
     }
