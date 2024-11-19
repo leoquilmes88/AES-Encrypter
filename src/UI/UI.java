@@ -29,7 +29,7 @@ public class UI extends JFrame {
         setIconImage(icon);
 
         Dimension screenSize = toolkit.getScreenSize();
-        setBounds(screenSize.width / 4, screenSize.height / 4, 500 , 245);
+        setBounds(screenSize.width / 4, screenSize.height / 4, 500 , 225);
         setResizable(false);
 
         setVisible(true);
@@ -62,20 +62,28 @@ public class UI extends JFrame {
         salt.add(Box.createHorizontalStrut(10));
         salt.add(inputSalt);
 
+        Box passSalt = Box.createHorizontalBox();
+        passSalt.add(password);
+        passSalt.add(Box.createHorizontalStrut(10));
+        passSalt.add(salt);
+
         Box actionComboBox = Box.createHorizontalBox();
         actionComboBox.add(new JLabel("Accion: "));
         actionComboBox.add(actionCombo);
+        actionComboBox.add(new AcceptButton(this));
 
-        Box acceptButton = Box.createHorizontalBox();
-        acceptButton.add(new AcceptButton(this));
+        /*Box acceptButton = Box.createHorizontalBox();
+        acceptButton.add(new AcceptButton(this));*/
 
         column.add(origin);
         column.add(outputDirectory);
-        column.add(password);
-        column.add(salt);
-        column.add(actionComboBox);
+        column.add(Box.createVerticalStrut(5));
+        column.add(passSalt);
+        column.add(Box.createVerticalStrut(10));
         column.add(outputFileNameBox);
-        column.add(acceptButton);
+        column.add(Box.createVerticalStrut(10));
+        column.add(actionComboBox);
+        //column.add(acceptButton);
         add(column);
     }
 

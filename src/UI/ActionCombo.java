@@ -6,7 +6,7 @@ import javax.swing.*;
 import java.awt.*;
 
 public class ActionCombo extends JPanel{
-    private final JComboBox<ActionMode> actionCombo = new JComboBox<ActionMode>();
+    private final JComboBox<ActionMode> actionCombo = new JComboBox<>();
 
     public ActionCombo() {
         setLayout(new FlowLayout(FlowLayout.CENTER));
