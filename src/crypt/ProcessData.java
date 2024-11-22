@@ -39,7 +39,7 @@ public class ProcessData {
     }
 
     private static void assertValidSalt(String salt) {
-        if (salt.isBlank() || salt.length() > 32){
+        if (salt.isBlank() || salt.length() < 2 || salt.length() > 32){
             throw new RuntimeException("Longitud de salt invalida");
         }else{
             try {
