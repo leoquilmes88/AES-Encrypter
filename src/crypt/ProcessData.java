@@ -25,8 +25,8 @@ public class ProcessData {
     }
 
     public static ProcessData from(String pathOrigen, String destinationPath, String password, String salt, Boolean randomIv, ActionMode mode, String outputFileName) {
-        assertPathNotEmpty(pathOrigen);
-        assertPathNotEmpty(destinationPath);
+        assertPathNotEmpty(pathOrigen, "de archivo origen");
+        assertPathNotEmpty(destinationPath, "destino de archivo salida");
         assertValidSalt(salt);
         assertOutputFileNameNotEmpty(outputFileName);
         return new ProcessData(pathOrigen, destinationPath, password, salt, randomIv, mode, outputFileName);
@@ -40,7 +40,7 @@ public class ProcessData {
 
     private static void assertValidSalt(String salt) {
         if (salt.isBlank() || salt.length() > 32){
-            throw new RuntimeException("Salt invalido");
+            throw new RuntimeException("Longitud de salt invalida");
         }else{
             try {
                 Hex.decodeHex(salt);
@@ -51,9 +51,9 @@ public class ProcessData {
 
     }
 
-    private static void assertPathNotEmpty(String pathOrigen) {
+    private static void assertPathNotEmpty(String pathOrigen, String errorComplemetaryDescription) {
         if (pathOrigen.isBlank()){
-            throw new RuntimeException("Path vacio");
+            throw new RuntimeException(String.format("Path %s vacio", errorComplemetaryDescription));
         }
     }
 
