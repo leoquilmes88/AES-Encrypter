@@ -12,6 +12,7 @@ public class CustomSelector extends JPanel implements ActionListener{
 
     public CustomSelector(String buttonMessage, int selectionModeIndex) {
         this.selectionModeIndex = selectionModeIndex;
+        path.setEnabled(false);
         add(path);
         JButton button = new JButton(buttonMessage);
         add(button);
