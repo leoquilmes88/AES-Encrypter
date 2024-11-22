@@ -23,8 +23,8 @@ public class AcceptButton extends JPanel implements ActionListener{
     public void actionPerformed(ActionEvent click) {
         try {
             parent.buildProcess();
-        } catch (InterruptedException e) {
-            parent.notification("Fallo la creacion del proceso");
+        } catch (Exception e) {
+            parent.notification(e.getMessage());
         }
     }
 

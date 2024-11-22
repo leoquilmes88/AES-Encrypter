@@ -12,29 +12,31 @@ public enum ActionMode {
     ENCRYPT(CipherMode.ENCRYPT){
         private byte[] ivBytes = new byte[0];
         @Override
-        public byte[] getIvBytes(byte[] input){
+        public byte[] getIvBytes(byte[] input, Boolean randomIv){
             if (ivBytes.length == 0){
                 ivBytes = new byte[16];
-                new SecureRandom().nextBytes(ivBytes);
+                if (randomIv){
+                    new SecureRandom().nextBytes(ivBytes);
+                }
             }
             return ivBytes;
         }
         @Override
-        public byte[] getResult(byte[] input, Cipher cipher) throws IOException, IllegalBlockSizeException, BadPaddingException {
+        public byte[] getResult(byte[] input, Boolean randomIv, Cipher cipher) throws IOException, IllegalBlockSizeException, BadPaddingException {
             ByteArrayOutputStream output = new ByteArrayOutputStream();
-            output.write(this.getIvBytes(input));
+            output.write(this.getIvBytes(input, randomIv));
             output.write(cipher.doFinal(input));
             return output.toByteArray();
         }
     }, DECRYPT(CipherMode.DECRYPT){
         @Override
-        public byte[] getIvBytes(byte[] input){
+        public byte[] getIvBytes(byte[] input, Boolean randomIv){
             byte[] result = new byte[16];
             System.arraycopy(input, 0, result, 0, 16);
             return result;
         }
         @Override
-        public byte[] getResult(byte[] input, Cipher cipher) throws IllegalBlockSizeException, BadPaddingException {
+        public byte[] getResult(byte[] input, Boolean randomIv, Cipher cipher) throws IllegalBlockSizeException, BadPaddingException {
             byte[] toDecrypt = new byte[input.length - 16];
             System.arraycopy(input, 16, toDecrypt, 0, toDecrypt.length);
             return cipher.doFinal(toDecrypt);
@@ -51,9 +53,9 @@ public enum ActionMode {
         return cipherMode;
     }
 
-    public abstract byte[] getIvBytes(byte[] input);
+    public abstract byte[] getIvBytes(byte[] input, Boolean randomIv);
 
-    public abstract byte[] getResult(byte[] input, Cipher cipher) throws IOException, IllegalBlockSizeException, BadPaddingException;
+    public abstract byte[] getResult(byte[] input, Boolean randomIv, Cipher cipher) throws IOException, IllegalBlockSizeException, BadPaddingException;
 
     private static class CipherMode {
         public static int ENCRYPT = Cipher.ENCRYPT_MODE;

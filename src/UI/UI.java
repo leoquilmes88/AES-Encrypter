@@ -14,6 +14,7 @@ public class UI extends JFrame {
     private final JTextField outputFileName = new JTextField(10);
     private final JTextField inputPassword = new JTextField(10);
     private final JTextField inputSalt = new JTextField(10);
+    private final RandomIVCombo randomIVcombo = new RandomIVCombo();
     private final ActionCombo actionCombo = new ActionCombo();
     private final Buffer buffer;
 
@@ -68,12 +69,11 @@ public class UI extends JFrame {
         passSalt.add(salt);
 
         Box actionComboBox = Box.createHorizontalBox();
+        actionComboBox.add(new JLabel("Random IV: "));
+        actionComboBox.add(randomIVcombo);
         actionComboBox.add(new JLabel("Accion: "));
         actionComboBox.add(actionCombo);
         actionComboBox.add(new AcceptButton(this));
-
-        /*Box acceptButton = Box.createHorizontalBox();
-        acceptButton.add(new AcceptButton(this));*/
 
         column.add(origin);
         column.add(outputDirectory);
@@ -83,7 +83,6 @@ public class UI extends JFrame {
         column.add(outputFileNameBox);
         column.add(Box.createVerticalStrut(10));
         column.add(actionComboBox);
-        //column.add(acceptButton);
         add(column);
     }
 
@@ -96,7 +95,7 @@ public class UI extends JFrame {
     }
 
     public void buildProcess() throws InterruptedException {
-        buffer.write(new ProcessData(originSelector.path(), destinationSelector.path(), inputPassword.getText(),
-                inputSalt.getText(), actionCombo.getAction(), outputFileName.getText()));
+        buffer.write(ProcessData.from(originSelector.path(), destinationSelector.path(), inputPassword.getText(),
+                inputSalt.getText(), randomIVcombo.getElection(), actionCombo.getAction(), outputFileName.getText()));
     }
 }

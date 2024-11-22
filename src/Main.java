@@ -24,7 +24,7 @@ public class Main {
         //Se crea y escribe el archivo resultante
         FileOutputStream fileOutput = new FileOutputStream(processData.getDestinationPath() + "/" +
                 processData.getOutputFileName());
-        fileOutput.write(AESCipher.doAction(processData.getPassword(), processData.getSalt(), processData.getMode(),
+        fileOutput.write(AESCipher.doAction(processData.getPassword(), processData.getSalt(), processData.getRandomIv(), processData.getMode(),
                 fileInput.readAllBytes()));
 
         ui.notification("Proceso realizado con exito");

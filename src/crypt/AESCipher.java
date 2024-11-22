@@ -10,8 +10,8 @@ import java.security.spec.KeySpec;
 
 public class AESCipher {
 
-    public static byte[] doAction(String password, String salt, ActionMode actionMode, byte[] input) throws Exception {
-        byte[] ivByte = actionMode.getIvBytes(input);
+    public static byte[] doAction(String password, String salt, Boolean randomIv, ActionMode actionMode, byte[] input) throws Exception {
+        byte[] ivByte = actionMode.getIvBytes(input, randomIv);
         IvParameterSpec ivParameter = new IvParameterSpec(ivByte);
         Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
         SecretKeyFactory secretFactory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256");
@@ -20,7 +20,7 @@ public class AESCipher {
         SecretKeySpec secretKeySpec = new SecretKeySpec(secretFactory.generateSecret(keySpec).getEncoded(),
                 "AES");
         cipher.init(actionMode.getCipherMode(), secretKeySpec, ivParameter);
-        return actionMode.getResult(input, cipher);
+        return actionMode.getResult(input, randomIv, cipher);
     }
 
 }
